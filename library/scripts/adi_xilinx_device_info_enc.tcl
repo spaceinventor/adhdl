@@ -68,7 +68,8 @@ set fpga_family_list { \
         { artix   1 } \
         { kintex  2 } \
         { virtex  3 } \
-        { zynq    4 }}
+        { zynq    4 } \
+        { azynq   5 }}
 
 set speed_grade_list { \
         { Unknown 0  } \
@@ -77,6 +78,7 @@ set speed_grade_list { \
         { -1H     12 } \
         { -1HV    13 } \
         { -1LV    14 } \
+        { -1Q     15 } \
         { -2      20 } \
         { -2L     21 } \
         { -2LV    22 } \
@@ -137,6 +139,7 @@ proc adi_device_spec {cellpath param} {
       FPGA_TECHNOLOGY {
           switch  -regexp -- $part {
              ^xc7    {set series_name 7series}
+             ^xa7    {set series_name 7series}
              ^xczu   {set series_name ultrascale+}
              ^xc.u.p {set series_name ultrascale+}
              ^xc.u   {set series_name ultrascale }
@@ -181,7 +184,7 @@ proc adi_device_spec {cellpath param} {
       }
       FPGA_VOLTAGE {
           set fpga_voltage [get_property REF_OPERATING_VOLTAGE $part]
-	  set fpga_voltage [expr int([expr $fpga_voltage * 1000])] ;# // V to mV conversion(integer val)
+    set fpga_voltage [expr int([expr $fpga_voltage * 1000])] ;# // V to mV conversion(integer val)
 
           return "$fpga_voltage"
       }
