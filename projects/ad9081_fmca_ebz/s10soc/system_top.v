@@ -340,7 +340,6 @@ module system_top  #(
     .rx_device_clk_clk                      (clkin6 ),
     .rx_serial_data_rx_serial_data          (rx_data[7:0] ),
     .rx_sync_export                         (fpga_syncout_0 ),
-    .rx_sysref_export                       (sysref2 )
-  );
+    .rx_sysref_export                       (sysref2 ));
 
 endmodule
