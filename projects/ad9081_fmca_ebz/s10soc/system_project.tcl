@@ -134,6 +134,10 @@ set_location_assignment PIN_BF30 -to "fpga_syncout_1_n"     ; ## C11  FMCA_LA06_
 set_instance_assignment -name IO_STANDARD LVDS -to fpga_syncin_0
 set_instance_assignment -name IO_STANDARD LVDS -to fpga_syncout_0
 set_instance_assignment -name INPUT_TERMINATION DIFFERENTIAL -to fpga_syncin_0
+set_instance_assignment -name IO_STANDARD "1.8 V" -to fpga_syncin_1_p
+set_instance_assignment -name IO_STANDARD "1.8 V" -to fpga_syncin_1_n
+set_instance_assignment -name IO_STANDARD "1.8 V" -to fpga_syncout_1_p
+set_instance_assignment -name IO_STANDARD "1.8 V" -to fpga_syncout_1_n
 
 set_location_assignment PIN_AP41 -to "fpga_refclk_in"         ; ## D4   FMCA_GBTCLK0_M2C_P  REFCLK_GXBL1C_CHTp
 set_location_assignment PIN_AP40 -to "fpga_refclk_in(n)"    ; ## D5   FMCA_GBTCLK0_M2C_N  REFCLK_GXBL1C_CHTn
