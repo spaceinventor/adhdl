@@ -54,6 +54,14 @@ adi_add_bus "spi" "master" \
 	}
 adi_add_bus_clock "clk" "spi" "resetn"
 
+adi_add_bus "status" "master" \
+	"analog.com:interface:spi_engine_status_rtl:1.0" \
+	"analog.com:interface:spi_engine_status:1.0" \
+	{
+		{"gpio_status" "STATUS_GPIO"} \
+	}
+adi_add_bus_clock "clk" "status" "resetn"
+
 ## Parameter validations
 
 set cc [ipx::current_core]

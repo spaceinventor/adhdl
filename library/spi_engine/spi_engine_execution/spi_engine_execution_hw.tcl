@@ -86,5 +86,9 @@ proc p_elaboration {} {
   ad_interface signal cs output 1
   ad_interface signal three_wire output 1
 
+  # status interface
+
+  ad_interface signal gpio_status output 8
+
 }
 

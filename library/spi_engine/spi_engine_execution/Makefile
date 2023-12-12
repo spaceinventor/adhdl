@@ -15,6 +15,8 @@ XILINX_DEPS += ../../spi_engine/interfaces/spi_engine_ctrl.xml
 XILINX_DEPS += ../../spi_engine/interfaces/spi_engine_ctrl_rtl.xml
 XILINX_DEPS += ../../spi_engine/interfaces/spi_master.xml
 XILINX_DEPS += ../../spi_engine/interfaces/spi_master_rtl.xml
+XILINX_DEPS += ../../spi_engine/interfaces/spi_engine_status.xml
+XILINX_DEPS += ../../spi_engine/interfaces/spi_engine_status_rtl.xml
 
 INTEL_DEPS += spi_engine_execution_hw.tcl
 

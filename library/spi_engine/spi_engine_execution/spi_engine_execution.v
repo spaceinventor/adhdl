@@ -67,6 +67,10 @@ module spi_engine_execution #(
   output reg sync_valid,
   output [7:0] sync,
 
+  output [7:0] gpio_status,
+
+  output [7:0] gpio,
+
   input echo_sclk,
   output reg sclk,
   output reg sdo,
@@ -76,10 +80,11 @@ module spi_engine_execution #(
   output reg three_wire
 );
 
-  localparam CMD_TRANSFER = 2'b00;
-  localparam CMD_CHIPSELECT = 2'b01;
-  localparam CMD_WRITE = 2'b10;
-  localparam CMD_MISC = 2'b11;
+  localparam CMD_TRANSFER = 3'b000;
+  localparam CMD_CHIPSELECT = 3'b001;
+  localparam CMD_WRITE = 3'b010;
+  localparam CMD_MISC = 3'b011;
+  localparam CMD_GPIO = 3'b100;
 
   localparam MISC_SYNC = 1'b0;
   localparam MISC_SLEEP = 1'b1;
@@ -141,16 +146,17 @@ module spi_engine_execution #(
 
   reg [SDI_DELAY+1:0] trigger_rx_d = {(SDI_DELAY+2){1'b0}};
 
-  wire [1:0] inst = cmd[13:12];
-  wire [1:0] inst_d1 = cmd_d1[13:12];
+  wire [2:0] inst = cmd[14:12];
+  wire [2:0] inst_d1 = cmd_d1[14:12];
 
   wire exec_cmd = cmd_ready && cmd_valid;
   wire exec_transfer_cmd = exec_cmd && inst == CMD_TRANSFER;
-
   wire exec_write_cmd = exec_cmd && inst == CMD_WRITE;
   wire exec_chipselect_cmd = exec_cmd && inst == CMD_CHIPSELECT;
+  wire exec_gpio_cmd = exec_cmd && inst == CMD_GPIO;
   wire exec_misc_cmd = exec_cmd && inst == CMD_MISC;
   wire exec_sync_cmd = exec_misc_cmd && cmd[8] == MISC_SYNC;
+  
 
   wire trigger_tx;
   wire trigger_rx;
@@ -166,6 +172,8 @@ module spi_engine_execution #(
 
   wire last_sdi_bit;
   wire end_of_sdi_latch;
+
+  reg [7:0] gpio_reg;
 
   (* direct_enable = "yes" *) wire cs_gen;
 
@@ -222,6 +230,17 @@ module spi_engine_execution #(
       end
     end
   end
+
+  // Update the GPIO from the 'GPIO' instruction
+  always @(posedge clk) begin
+    if (resetn == 1'b0) begin
+      gpio_reg <= 'b1;
+    end else if (exec_gpio_cmd) begin
+      gpio_reg <= (cmd[8]) ? (gpio_reg | cmd[7:0]) : (gpio_reg & ~cmd[7:0]);
+    end
+  end
+  assign gpio_status = gpio_reg;
+  assign gpio = gpio_reg;
 
   always @(posedge clk) begin
     if ((clk_div_last == 1'b0 && idle == 1'b0 && wait_for_io == 1'b0 &&

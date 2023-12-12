@@ -67,6 +67,14 @@ adi_add_bus "spi_engine_offload_ctrl0" "master" \
 
 adi_add_bus_clock "s_axi_aclk" "spi_engine_offload_ctrl0:s_axi" "s_axi_aresetn"
 
+adi_add_bus "status" "SLAVE" \
+	"analog.com:interface:spi_engine_status_rtl:1.0" \
+	"analog.com:interface:spi_engine_status:1.0" \
+	{
+		{"gpio_status" "STATUS_GPIO"} \
+	}
+adi_add_bus_clock "clk" "status" "resetn"
+
 foreach port {"up_clk" "up_rstn" "up_wreq" "up_waddr" "up_wdata" "up_rreq" "up_raddr"} {
   set_property DRIVER_VALUE "0" [ipx::get_ports $port]
 }

@@ -4,7 +4,7 @@ SPI Engine Instruction Set Specification
 ================================================================================
 
 The SPI Engine instruction set is a simple 16-bit instruction set of which
-12-bit is currently allocated (bits 15,14,11,10 are always 0).
+13-bit is currently allocated (bits 15,11,10 are always 0).
 
 Instructions
 --------------------------------------------------------------------------------
@@ -173,6 +173,33 @@ is the minimum, needed by the internal logic.
    * - t
      - Time
      - The amount of time to wait.
+
+GPIO Instruction
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+== == == == == == = = = = = = = = = =
+15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0
+== == == == == == = = = = = = = = = =
+0  1  0  0  0  0  r s m m m m m m m m
+== == == == == == = = = = = = = = = =
+
+.. list-table::
+   :widths: 10 15 75
+   :header-rows: 1
+
+   * - Bits
+     - Name
+     - Description
+   * - r
+     - Reserved
+     - Reserved for future extension. Should always be left as 0.
+   * - s
+     - Set/Clear
+     - 1=Set GPIO command, 0=Clear GPIO command.
+   * - m
+     - Mask
+     - Selects which GPIO bits are affected by this instruction: 1=Affected, 0=Unchanged.
+
 
 .. _spi_engine configutarion-registers:
 
