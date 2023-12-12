@@ -156,6 +156,8 @@ proc p_elaboration {} {
   set_interface_property sync associatedClock if_spi_clk
   set_interface_property sync associatedReset if_spi_resetn
 
+  ad_interface signal gpio_status input 8
+
   # Offload interfaces
 
   add_interface offload0_cmd conduit end
