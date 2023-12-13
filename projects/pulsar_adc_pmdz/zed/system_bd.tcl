@@ -7,6 +7,11 @@ set spi_clk_ref_frequency 160
 
 source ../common/pulsar_adc_pmdz_bd.tcl
 
+#connect SPI Engine GPIO
+create_bd_port -dir O -from 7 -to 0 pulsar_adc_gpio
+puts $hier_spi_engine
+ad_connect $hier_spi_engine/gpio pulsar_adc_gpio
+
 #system ID
 
 set mem_init_sys_path [get_env_param ADI_PROJECT_DIR ""]mem_init_sys.txt;

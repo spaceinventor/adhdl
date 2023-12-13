@@ -32,6 +32,8 @@ if {$AD40XX_ADAQ400X_N == 0} {
 } elseif {$AD40XX_ADAQ400X_N == 1} {
    adi_project_files pulsar_adc_pmdz_zed [list \
       "$ad_hdl_dir/library/common/ad_iobuf.v" \
+      "$ad_hdl_dir/library/common/ad_mux.v" \
+      "$ad_hdl_dir/library/common/ad_mux_core.v" \
       "system_top_ad40xx.v" \
       "system_constr_ad40xx.xdc" \
       "$ad_hdl_dir/projects/common/zed/zed_system_constr.xdc"]

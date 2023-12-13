@@ -105,6 +105,19 @@ module system_top (
   wire    [ 1:0]  iic_mux_sda_i_s;
   wire    [ 1:0]  iic_mux_sda_o_s;
   wire            iic_mux_sda_t_s;
+  wire            spi_engine_sdi;
+  wire            spi_engine_sdo;
+  wire            spi_engine_sclk;
+  wire    [ 7:0]  spi_engine_cs;
+  wire    [ 7:0]  spi_engine_gpio;
+  wire    [ 7:0]  spi_engine_gpio_cs_mux;
+
+  // wiring
+  assign ad40xx_spi_sdo  = spi_engine_gpio_cs_mux[0];
+  assign spi_engine_sdi  = ad40xx_spi_sdi;
+  assign ad40xx_spi_sclk = spi_engine_sclk;
+  assign ad40xx_spi_cs   = spi_engine_gpio_cs_mux[1]; // actually cnv in ad7944 
+
 
   // instantiations
 
@@ -141,6 +154,18 @@ module system_top (
     .dio_i(iic_mux_sda_o_s),
     .dio_o(iic_mux_sda_i_s),
     .dio_p(iic_mux_sda));
+
+  ad_mux #(
+    .CH_W       (8),
+    .CH_CNT     (2),
+    .REQ_MUX_SZ (8),
+    .EN_REG     (0)
+  ) spi_gpio_mux (
+   .clk       (1'b0), // not needed since EN_REG=0
+   .data_in   ({spi_engine_gpio,spi_engine_cs}),
+   .ch_sel    (gpio_o[34]),
+   .data_out  (spi_engine_gpio_cs_mux) 
+  );
 
   system_wrapper i_system_wrapper (
     .ddr_addr (ddr_addr),
@@ -203,10 +228,11 @@ module system_top (
     .spi1_sdi_i (1'b0),
     .spi1_sdo_i (1'b0),
     .spi1_sdo_o (),
-    .pulsar_adc_spi_cs(ad40xx_spi_cs),
-    .pulsar_adc_spi_sclk(ad40xx_spi_sclk),
-    .pulsar_adc_spi_sdi(ad40xx_spi_sdi),
-    .pulsar_adc_spi_sdo(ad40xx_spi_sdo),
+    .pulsar_adc_gpio(spi_engine_gpio),
+    .pulsar_adc_spi_cs(spi_engine_cs),
+    .pulsar_adc_spi_sclk(spi_engine_sclk),
+    .pulsar_adc_spi_sdi(spi_engine_sdi),
+    .pulsar_adc_spi_sdo(spi_engine_sdo),
     .pulsar_adc_spi_sdo_t(),
     .pulsar_adc_spi_three_wire(),
     .otg_vbusoc (otg_vbusoc),
