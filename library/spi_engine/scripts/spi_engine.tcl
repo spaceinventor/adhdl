@@ -19,6 +19,7 @@ proc spi_engine_create {{name "spi_engine"} {data_width 32} {async_spi_clk 1} {n
   create_bd_pin -dir I -type rst resetn
   create_bd_pin -dir I trigger
   create_bd_pin -dir O irq
+  create_bd_pin -dir O -from 7 -to 0 gpio
   create_bd_intf_pin -mode Master -vlnv analog.com:interface:spi_master_rtl:1.0 m_spi
   create_bd_intf_pin -mode Master -vlnv xilinx.com:interface:axis_rtl:1.0 m_axis_sample
 
@@ -53,6 +54,7 @@ proc spi_engine_create {{name "spi_engine"} {data_width 32} {async_spi_clk 1} {n
   ad_connect $axi_regmap/spi_engine_offload_ctrl0 $offload/spi_engine_offload_ctrl
   ad_connect $offload/spi_engine_ctrl $interconnect/s0_ctrl
   ad_connect $axi_regmap/spi_engine_ctrl $interconnect/s1_ctrl
+  ad_connect $execution/status $axi_regmap/status
   ad_connect $interconnect/m_ctrl $execution/ctrl
   ad_connect $offload/offload_sdi m_axis_sample
   ad_connect $offload/trigger trigger
@@ -85,6 +87,7 @@ proc spi_engine_create {{name "spi_engine"} {data_width 32} {async_spi_clk 1} {n
 
   ad_connect resetn $axi_regmap/s_axi_aresetn
   ad_connect irq $axi_regmap/irq
+  ad_connect gpio $execution/gpio
 
   current_bd_instance /
 }

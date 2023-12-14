@@ -4,7 +4,7 @@ SPI Engine Instruction Set Specification
 ================================================================================
 
 The SPI Engine instruction set is a simple 16-bit instruction set of which
-12-bit is currently allocated (bits 15,14,11,10 are always 0).
+13-bit is currently allocated (bits 15,11,10 are always 0).
 
 Instructions
 --------------------------------------------------------------------------------
@@ -62,15 +62,17 @@ SPI Engine execution module.
 
 Before and after the update is performed the execution module is paused for the
 specified delay. The length of the delay depends on the module clock frequency,
-the setting of the prescaler register and the t parameter of the instruction.
-This delay is inserted before and after the update of the chip-select signal,
-so the total execution time of the chip-select
-instruction is twice the delay, plus a fixed 2 clock cycles (fast clock, not prescaled)
-for the internal logic.
+the setting of the prescaler register and the parameter :math:`t` of the
+instruction. This delay is inserted before and after the update of the
+chip-select signal, so the total execution time of the chip-select instruction
+is twice the delay, with an added fixed 2 clock cycles (fast clock, not
+prescaled) before for the internal logic.
 
 .. math::
 
-   delay = t * \frac{(div + 1)*2}{f_{clk}}
+   delay_{before} = 2+ t * \frac{(div + 1)*2}{f_{clk}}
+
+   delay_{after}  = t * \frac{(div + 1)*2}{f_{clk}}
 
 .. list-table::
    :widths: 10 15 75
@@ -128,7 +130,8 @@ Synchronize Instruction
 The synchronize instruction generates a synchronization event on the SYNC output
 stream. This can be used to monitor the progress of the command stream. The
 synchronize instruction is also used by the :ref:`spi_engine interconnect`
-module to identify the end of a transaction and re-start the arbitration process.
+module to identify the end of a transaction and re-start the arbitration
+process.
 
 .. list-table::
    :widths: 10 15 75
@@ -170,6 +173,33 @@ is the minimum, needed by the internal logic.
    * - t
      - Time
      - The amount of time to wait.
+
+GPIO Instruction
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+== == == == == == = = = = = = = = = =
+15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0
+== == == == == == = = = = = = = = = =
+0  1  0  0  0  0  r s m m m m m m m m
+== == == == == == = = = = = = = = = =
+
+.. list-table::
+   :widths: 10 15 75
+   :header-rows: 1
+
+   * - Bits
+     - Name
+     - Description
+   * - r
+     - Reserved
+     - Reserved for future extension. Should always be left as 0.
+   * - s
+     - Set/Clear
+     - 1=Set GPIO command, 0=Clear GPIO command.
+   * - m
+     - Mask
+     - Selects which GPIO bits are affected by this instruction: 1=Affected, 0=Unchanged.
+
 
 .. _spi_engine configutarion-registers:
 

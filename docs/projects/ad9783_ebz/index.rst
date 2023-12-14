@@ -6,7 +6,7 @@ AD9783-EBZ HDL project
 Overview
 -------------------------------------------------------------------------------
 
-The :part:`AD9783` includes pin-compatible, high dynamic range, dual
+The :adi:`AD9783` includes pin-compatible, high dynamic range, dual
 digital-to-analog converters (DACs) with 16-bit resolution, and sample rates of
 up to 500 MSPS.
 
@@ -14,20 +14,20 @@ The device includes specific features for direct conversion transmit
 applications, including gain and offset compensation, interfacing seamlessly
 with analog quadrature modulators.
 
-The :part:`EVAL-AD9783` board is connected to the FPGA carrier through
-:part:`AD-DAC-FMC`-ADP interposer board.
+The :adi:`EVAL-AD9783` board is connected to the FPGA carrier through
+:adi:`AD-DAC-FMC`-ADP interposer board.
 
 Supported boards
 -------------------------------------------------------------------------------
 
--  :part:`EVAL-AD9783`
+-  :adi:`EVAL-AD9783`
 
 Supported devices
 -------------------------------------------------------------------------------
 
--  :part:`AD9780`
--  :part:`AD9781`
--  :part:`AD9783`
+-  :adi:`AD9780`
+-  :adi:`AD9781`
+-  :adi:`AD9783`
 
 Supported carriers
 -------------------------------------------------------------------------------
@@ -42,7 +42,7 @@ Block diagram
 
 The data path and clock domains are depicted in the below diagram:
 
-.. image:: ../images/ad9783_ebz/ad9783_zcu102_block_diagram.svg
+.. image:: ad9783_zcu102_block_diagram.svg
    :width: 800
    :align: center
    :alt: AD9783-EBZ/ZCU102 block diagram
@@ -53,7 +53,7 @@ Clock scheme
 -  External clock source connected to J1 (CLOCK IN)
 -  For maximum performance, give a 500 MHz clock
 
-To make the connection between the :part:`EVAL-AD9783` evaluation board and
+To make the connection between the :adi:`EVAL-AD9783` evaluation board and
 the carrier using SPI, some hardware changes must be done to the evaluation
 board. These are presented in detail in the **Connections and hardware changes**
 section.
@@ -107,7 +107,7 @@ Building the HDL project
 
 The design is built upon ADI's generic HDL reference design framework.
 ADI does not distribute the bit/elf files of these projects so they
-must be built from the sources available :git-hdl:`here <master:/>`. To get
+must be built from the sources available :git-hdl:`here </>`. To get
 the source you must
 `clone <https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository>`__
 the HDL repository, and then build the project as follows:
@@ -127,7 +127,10 @@ Software considerations
 The SPI communication is changed because of hardware modifications, so the
 connection looks like this:
 
-|ad9783_zcu102_spi_pmod.svg|
+.. image:: ad9783_zcu102_spi_pmod.svg
+   :width: 600
+   :align: center
+   :alt: AD9783-EBZ/ZCU102 SPI Pmod connection
 
 Resources
 -------------------------------------------------------------------------------
@@ -138,37 +141,29 @@ Systems related
 Here you can find the quick start guides available for these evaluation boards:
 
 .. list-table::
-   :widths: 20 10 20 20 20 10
+   :widths: 50 50
    :header-rows: 1
 
    * - Evaluation board
-     - Zynq-7000
      - Zynq UltraScale+ MP
-     - Microblaze
-     - Versal
-     - Arria 10
    * - AD9783-EBZ
-     - ---
      - :dokuwiki:`[Wiki] ZCU102 <resources/fpga/xilinx/interposer/ad9783>`
-     - ---
-     - ---
-     - ---
 
 Hardware related
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -  Product datasheets:
 
-   -  :part:`AD9780`
-   -  :part:`AD9781`
-   -  :part:`AD9783`
-   -  :part:`EVAL-AD9783`
-   -  :part:`AD-DAC-FMC`-ADP
+   -  :adi:`AD9780`
+   -  :adi:`AD9781`
+   -  :adi:`AD9783`
+   -  :adi:`EVAL-AD9783`
+   -  :adi:`AD-DAC-FMC`-ADP
 
 HDL related
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
--  :git-hdl:`AD9783_EBZ HDL project source code <master:projects/ad9783_ebz>`
+-  :git-hdl:`AD9783_EBZ HDL project source code <projects/ad9783_ebz>`
 
 .. list-table::
    :widths: 30 35 35
@@ -178,32 +173,28 @@ HDL related
      - Source code link
      - Documentation link
    * - AXI_AD9783
-     - :git-hdl:`library/axi_ad9783 <master:library/axi_ad9783>`
+     - :git-hdl:`library/axi_ad9783`
      - :dokuwiki:`[Wiki] <resources/fpga/docs/axi_ad9783>`
    * - AXI_DMAC
-     - :git-hdl:`library/axi_dmac <master:library/axi_dmac>`
+     - :git-hdl:`library/axi_dmac`
      - :ref:`here <axi_dmac>`
    * - AXI_SYSID
-     - :git-hdl:`library/axi_sysid <master:library/axi_sysid>`
+     - :git-hdl:`library/axi_sysid`
      - :dokuwiki:`[Wiki] <resources/fpga/docs/axi_sysid>`
    * - SYSID_ROM
-     - :git-hdl:`library/sysid_rom <master:library/sysid_rom>`
+     - :git-hdl:`library/sysid_rom`
      - :dokuwiki:`[Wiki] <resources/fpga/docs/axi_sysid>`
    * - UTIL_UPACK2
-     - :git-hdl:`library/util_pack/util_upack2 <master:library/util_pack/util_upack2>`
+     - :git-hdl:`library/util_pack/util_upack2`
      - :dokuwiki:`[Wiki] <resources/fpga/docs/util_upack>`
 
 Software related
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
--  :git-linux:`Linux device tree zynqmp-zcu102-rev10-ad9783.dts <master:arch/arm64/boot/dts/xilinx/zynqmp-zcu102-rev10-ad9783.dts>`
--  :git-linux:`Linux driver ad9783.c <master:drivers/iio/frequency>`
+-  :git-linux:`Linux device tree zynqmp-zcu102-rev10-ad9783.dts <arch/arm64/boot/dts/xilinx/zynqmp-zcu102-rev10-ad9783.dts>`
+-  :git-linux:`Linux driver ad9783.c <drivers/iio/frequency>`
 
 .. include:: ../common/more_information.rst
 
 .. include:: ../common/support.rst
 
-.. |ad9783_zcu102_spi_pmod.svg| image:: ../images/ad9783_ebz/ad9783_zcu102_spi_pmod.svg
-   :width: 600
-   :align: top
-   :alt: AD9783-EBZ/ZCU102 SPI Pmod connection

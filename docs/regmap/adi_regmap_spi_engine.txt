@@ -369,3 +369,18 @@ Writing to this register when the SDO FIFO is full has no effect and the written
 discarded. Reading from this register always returns 0x00000000.
 ENDFIELD
 
+############################################################################################
+############################################################################################
+
+REG
+0x50
+STATUS
+ENDREG
+
+FIELD
+[7:0] 0xFF
+GPIO_STATUS
+RO
+Current GPIO status, usfeul for polling.
+ENDFIELD
+

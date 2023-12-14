@@ -14,7 +14,9 @@ SPI Engine
    Offload Control Interface<offload-control-interface>
    SPI Bus Interface<spi-bus-interface>
    Instruction Set Specification<instruction-format>
+   Pipeline Delays<pipeline-delays>
    Tutorial - PulSAR ADC<tutorial>
+   
 
 SPI Engine is a highly flexible and powerful SPI controller framework.
 It consist out of multiple sub-modules which communicate over well defined
@@ -65,7 +67,7 @@ Related IP Cores
 --------------------------------------------------------------------------------
 
 This list contains cores that are not part of the core SPI engine framework but
-make use of its interfaces and are intend to be used together with the SPI engine
+make use of its interfaces and are intended to be used together with the SPI engine
 framework.
 
 * :dokuwiki:`util-sigma-delta-spi <resources/fpga/peripherals/util_sigma_delta_spi>`:
@@ -75,14 +77,14 @@ Examples
 --------------------------------------------------------------------------------
 
 * :dokuwiki:`CN0363 <resources/eval/user-guides/eval-cn0363-pmdz>`:
-  Colorimeter application using the :part:`AD7175-2` Sigma-Delta ADC.
+  Colorimeter application using the :adi:`AD7175-2` Sigma-Delta ADC.
 * :dokuwiki:`resources/eval/user-guides/adaq7980-sdz`:
   A 16-bit ADC subsystem with four common signal processing and conditioning blocks.
 * :dokuwiki:`resources/tools-software/uc-drivers/ad5766`:
   16-channel, 16-/12-bit, voltage output Digital-to-Analog Converters (DAC).
 * :dokuwiki:`CN0363 <resources/eval/user-guides/eval-cn0363-pmdz>`:
   The AD7768-1 is a low power, high performance, Σ-Δ analog-to-digital converter (ADC).
-* :git-hdl:`master:projects/ad40xx_fmc`
+* :git-hdl:`projects/ad40xx_fmc`
   Evaluation Board for the AD4000 Series 16-/18-/20-Bit Precision SAR ADCs.
 * :dokuwiki:`AD469x <resources/eval/user-guides/ad469x>`:
   16-Bit, 16-Channel, 500 kSPS/1 MSPS, Easy Drive Multiplexed SAR ADC.
@@ -93,4 +95,5 @@ Additional Resources
 --------------------------------------------------------------------------------
 
 * :download:`Presentation: SPI Engine Design Philosophy <https://wiki.analog.com/_media/resources/fpga/peripherals/spi-engine3.pdf>`.
+* :ref:`spi_engine pipeline-delays`
 * :ref:`spi_engine tutorial`.

@@ -116,6 +116,8 @@ module axi_spi_engine #(
   input sync_valid,
   input [7:0] sync_data,
 
+  input [7:0] gpio_status,
+
   // Offload ctrl signals
 
   output offload0_cmd_wr_en,
@@ -173,6 +175,8 @@ module axi_spi_engine #(
 
   reg up_sw_reset = 1'b1;
   wire up_sw_resetn = ~up_sw_reset;
+
+  wire [7:0] gpio_status_s;
 
   reg  [31:0]                     up_rdata_ff = 'd0;
   reg                             up_wack_ff = 1'b0;
@@ -354,6 +358,7 @@ module axi_spi_engine #(
       8'h3c: up_rdata_ff <= sdi_fifo_out_data; /* PEEK register */
       8'h40: up_rdata_ff <= {offload0_enable_reg};
       8'h41: up_rdata_ff <= {offload0_enabled_s};
+      8'h50: up_rdata_ff <= {gpio_status_s};
       8'h80: up_rdata_ff <= CFG_INFO_0;
       8'h81: up_rdata_ff <= CFG_INFO_1;
       8'h82: up_rdata_ff <= CFG_INFO_2;
@@ -492,6 +497,16 @@ module axi_spi_engine #(
     .m_axis_level(sdi_fifo_level),
     .m_axis_empty(),
     .m_axis_almost_empty());
+
+  // synchronization for the SPI status interface (currently just GPIO)
+  sync_data #(
+    .NUM_OF_BITS(8),
+    .ASYNC_CLK(ASYNC_SPI_CLK)
+  ) i_offload_status_sync (
+    .in_clk(spi_clk),
+    .in_data(gpio_status),
+    .out_clk(clk),
+    .out_data(gpio_status_s));
 
   generate if (ASYNC_SPI_CLK) begin
 
