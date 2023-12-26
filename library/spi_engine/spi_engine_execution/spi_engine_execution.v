@@ -69,7 +69,7 @@ module spi_engine_execution #(
 
   output [7:0] gpio_status,
 
-  output [7:0] gpio,
+  output reg [7:0] gpio,
 
   input echo_sclk,
   output reg sclk,
@@ -240,7 +240,6 @@ module spi_engine_execution #(
     end
   end
   assign gpio_status = gpio_reg;
-  assign gpio = gpio_reg;
 
   always @(posedge clk) begin
     if ((clk_div_last == 1'b0 && idle == 1'b0 && wait_for_io == 1'b0 &&
@@ -628,6 +627,7 @@ module spi_engine_execution #(
     sclk <= sclk_int;
     sdo <= sdo_int_s;
     sdo_t <= sdo_t_int;
+    gpio <= gpio_reg;
   end
 
 endmodule

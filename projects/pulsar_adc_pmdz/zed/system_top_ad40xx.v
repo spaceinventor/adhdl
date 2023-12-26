@@ -110,13 +110,12 @@ module system_top (
   wire            spi_engine_sclk;
   wire    [ 7:0]  spi_engine_cs;
   wire    [ 7:0]  spi_engine_gpio;
-  wire    [ 7:0]  spi_engine_gpio_cs_mux;
 
   // wiring
-  assign ad40xx_spi_sdo  = spi_engine_gpio_cs_mux[0];
+  assign ad40xx_spi_sdo  = spi_engine_gpio[0];
   assign spi_engine_sdi  = ad40xx_spi_sdi;
   assign ad40xx_spi_sclk = spi_engine_sclk;
-  assign ad40xx_spi_cs   = spi_engine_gpio_cs_mux[1]; // actually cnv in ad7944 
+  assign ad40xx_spi_cs   = spi_engine_gpio[1]; // actually cnv in ad7944 
 
 
   // instantiations
@@ -154,18 +153,6 @@ module system_top (
     .dio_i(iic_mux_sda_o_s),
     .dio_o(iic_mux_sda_i_s),
     .dio_p(iic_mux_sda));
-
-  ad_mux #(
-    .CH_W       (8),
-    .CH_CNT     (2),
-    .REQ_MUX_SZ (8),
-    .EN_REG     (0)
-  ) spi_gpio_mux (
-   .clk       (1'b0), // not needed since EN_REG=0
-   .data_in   ({spi_engine_gpio,spi_engine_cs}),
-   .ch_sel    (gpio_o[34]),
-   .data_out  (spi_engine_gpio_cs_mux) 
-  );
 
   system_wrapper i_system_wrapper (
     .ddr_addr (ddr_addr),
