@@ -183,6 +183,10 @@ GPIO Instruction
 0  1  0  0  0  0  r s m m m m m m m m
 == == == == == == = = = = = = = = = =
 
+The GPIO instruction changes the state of 8 general-purpose ports of the SPI Engine.
+This is useful for flexibly controlling interfaces beyond standard SPI with relatively
+tight timing control with respect to the SPI operations.
+
 .. list-table::
    :widths: 10 15 75
    :header-rows: 1
@@ -195,7 +199,8 @@ GPIO Instruction
      - Reserved for future extension. Should always be left as 0.
    * - s
      - Set/Clear
-     - 1=Set GPIO command, 0=Clear GPIO command.
+     - When 0, bits selected by the Mask field are cleared. When 1, bits 
+       selected by the Mask field are set.
    * - m
      - Mask
      - Selects which GPIO bits are affected by this instruction: 1=Affected, 0=Unchanged.
@@ -225,7 +230,7 @@ bus behavior.
      - Name
      - Description
    * - [7:3]
-     - reserved
+     - Reserved
      - Must always be 0.
    * - [2]
      - three_wire

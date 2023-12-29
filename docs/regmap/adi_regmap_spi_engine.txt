@@ -381,6 +381,8 @@ FIELD
 [7:0] 0xFF
 GPIO_STATUS
 RO
-Current GPIO status, usfeul for polling.
+Current GPIO status, useful for polling.
 ENDFIELD
 
+############################################################################################
+############################################################################################
