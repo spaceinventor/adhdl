@@ -30,7 +30,7 @@ set_property company_url {https://wiki.analog.com/resources/fpga/peripherals/spi
 
 ## Interface definitions
 
-adi_add_bus "spi_engine_ctrl" "master" \
+adi_add_bus "ctrl" "master" \
 	"analog.com:interface:spi_engine_ctrl_rtl:1.0" \
 	"analog.com:interface:spi_engine_ctrl:1.0" \
 	{
@@ -47,9 +47,9 @@ adi_add_bus "spi_engine_ctrl" "master" \
 		{"sync_valid" "SYNC_VALID"} \
 		{"sync_data" "SYNC_DATA"} \
 	}
-adi_add_bus_clock "spi_clk" "spi_engine_ctrl" "spi_resetn" "master"
+adi_add_bus_clock "spi_clk" "ctrl" "spi_resetn" "master"
 
-adi_add_bus "spi_engine_offload_ctrl0" "master" \
+adi_add_bus "offload_ctrl" "master" \
 	"analog.com:interface:spi_engine_offload_ctrl_rtl:1.0" \
 	"analog.com:interface:spi_engine_offload_ctrl:1.0" \
 	{ \
@@ -65,7 +65,7 @@ adi_add_bus "spi_engine_offload_ctrl0" "master" \
 		{ "offload_sync_data" "SYNC_DATA"} \
 	}
 
-adi_add_bus_clock "s_axi_aclk" "spi_engine_offload_ctrl0:s_axi" "s_axi_aresetn"
+adi_add_bus_clock "s_axi_aclk" "offload_ctrl:s_axi" "s_axi_aresetn"
 
 adi_add_bus "status" "SLAVE" \
 	"analog.com:interface:spi_engine_status_rtl:1.0" \
@@ -73,12 +73,12 @@ adi_add_bus "status" "SLAVE" \
 	{
 		{"gpio_status" "STATUS_GPIO"} \
 	}
-adi_add_bus_clock "clk" "status" "resetn"
+adi_add_bus_clock "spi_clk" "status" "spi_resetn"
 
 foreach port {"up_clk" "up_rstn" "up_wreq" "up_waddr" "up_wdata" "up_rreq" "up_raddr"} {
   set_property DRIVER_VALUE "0" [ipx::get_ports $port]
 }
-adi_set_bus_dependency "spi_engine_offload_ctrl0" "spi_engine_offload_ctrl0" \
+adi_set_bus_dependency "offload_ctrl" "offload_ctrl" \
 	"(spirit:decode(id('MODELPARAM_VALUE.NUM_OFFLOAD')) > 0)"
 
 adi_set_bus_dependency "s_axi" "s_axi" \

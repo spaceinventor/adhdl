@@ -28,7 +28,7 @@ adi_ip_add_core_dependencies [list \
 
 ## Interface definitions
 
-adi_add_bus "spi_engine_ctrl" "master" \
+adi_add_bus "ctrl" "master" \
 	"analog.com:interface:spi_engine_ctrl_rtl:1.0" \
 	"analog.com:interface:spi_engine_ctrl:1.0" \
 	{
@@ -46,7 +46,7 @@ adi_add_bus "spi_engine_ctrl" "master" \
 		{"sync_data" "SYNC_DATA"} \
 	}
 
-adi_add_bus "spi_engine_offload_ctrl" "slave" \
+adi_add_bus "offload_ctrl" "slave" \
 	"analog.com:interface:spi_engine_offload_ctrl_rtl:1.0" \
 	"analog.com:interface:spi_engine_offload_ctrl:1.0" \
 	{ \
@@ -71,8 +71,8 @@ adi_add_bus "offload_sdi" "master" \
 		{"offload_sdi_data" "TDATA"} \
 	}
 
-adi_add_bus_clock "spi_clk" "spi_engine_ctrl:offload_sdi" "spi_resetn"
-adi_add_bus_clock "ctrl_clk" "spi_engine_offload_ctrl"
+adi_add_bus_clock "spi_clk" "ctrl:offload_sdi" "spi_resetn"
+adi_add_bus_clock "ctrl_clk" "offload_ctrl"
 
 ## Parameter validations
 
