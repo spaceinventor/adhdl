@@ -58,8 +58,7 @@ Block diagram
 Clock scheme
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-There are 3 ways to configure the clock source for :adi:`AD9265` (some 
-modification maybe necessary).
+There are 3 ways to configure the clock source for :adi:`AD9265`:
 
 - External passive clock (default)
 - Optional active clock path using the :adi:`AD9517`
@@ -67,15 +66,11 @@ modification maybe necessary).
 
 For more details, check :adi:`AD9265` schematic.
 
-
 CPU/Memory interconnects addresses
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The addresses are dependent on the architecture of the FPGA, having an offset
 added to the base address from HDL (see more at :ref:`architecture`).
-
-Depending on the values of parameters $INTF_CFG, $ADI_PHY_SEL and $TDD_SUPPORT,
-some IPs are instatiated and some are not.
 
 Check-out the table below to find out the conditions.
 
@@ -89,9 +84,6 @@ axi_ad9265_dma       0x44A30000
 SPI connections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-THESE ARE JUST EXAMPLES!!!
-USE WHICHEVER FITS BEST YOUR CASE
-
 .. list-table::
    :widths: 25 25 25 25
    :header-rows: 1
@@ -104,19 +96,11 @@ USE WHICHEVER FITS BEST YOUR CASE
      - SPI 0
      - AD9517
      - 1
-   * - PS
-     - SPI 1
-     - AD0000
-     - 0
 
 Interrupts
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Below are the Programmable Logic interrupts used in this project.
-
-You have many ways of writing this table: as a list-table or really to draw
-it. Take a look in the .rst of this page to see how they're written and
-which suits best your case.
 
 .. list-table::
    :widths: 30 10 15 15
@@ -141,8 +125,8 @@ the source you must
 `clone <https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository>`__
 the HDL repository.
 
-Then go to the project location(**projects/ad9265_fmc/carrier**) and run the make command by
-typing in your command prompt(this example :adi:`ZC706``):
+Then go to the project location (**projects/ad9265_fmc/carrier**) and run the make command by
+typing in your command prompt(this example :xilinx:`ZC706`):
 
 **Linux/Cygwin/WSL**
 
@@ -174,7 +158,7 @@ Hardware related
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -  Product datasheets: :adi:`AD9265`
--  :dokuwiki:`Evaluating AD9434, user guide <resources/eval/ad9265-fmc-125ebz>`
+-  :dokuwiki:`Evaluating AD9265, user guide <resources/eval/ad9265-fmc-125ebz>`
 
 HDL related
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -189,7 +173,7 @@ HDL related
      - Source code link
      - Documentation link
    * - AXI_AD9265
-     - :git-hdl:`library/axi_ad9434 <library/axi_ad9265>`
+     - :git-hdl:`library/axi_ad9265 <library/axi_ad9265>`
      - ---
    * - AXI_DMAC
      - :git-hdl:`library/axi_dmac <library/axi_dmac>`
@@ -198,7 +182,7 @@ HDL related
      - :git-hdl:`library/axi_clkgen <library/axi_clkgen>`
      - :dokuwiki:`[Wiki] <resources/fpga/docs/axi_clkgen>`
    * - AXI_HDMI_TX
-     - :git-hdl:`library/axi_hdmi_tx <library/axi_ad9434>`
+     - :git-hdl:`library/axi_hdmi_tx <library/axi_hdmi_tx>`
      - :dokuwiki:`[Wiki] <resources/fpga/docs/axi_hdmi_tx>`
    * - AXI_SPDIF_TX
      - :git-hdl:`library/axi_spdif_tx <library/axi_spdif_tx>`

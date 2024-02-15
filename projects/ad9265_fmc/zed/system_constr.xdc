@@ -1,5 +1,5 @@
 ###############################################################################
-## Copyright (C) 2014-2023 Analog Devices, Inc. All rights reserved.
+## Copyright (C) 2014-2024 Analog Devices, Inc. All rights reserved.
 ### SPDX short identifier: ADIBSD
 ###############################################################################
 
@@ -36,4 +36,4 @@ set_property -dict {PACKAGE_PIN A22 IOSTANDARD LVCMOS25} [get_ports spi_clk]    
 
 # clocks
 
-create_clock -name adc_clk      -period 3.33 [get_ports adc_clk_in_p]
+create_clock -name adc_clk      -period 3.33             [get_ports adc_clk_in_p]                   ;
