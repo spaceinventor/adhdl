@@ -1,6 +1,6 @@
 // ***************************************************************************
 // ***************************************************************************
-// Copyright (C) 2023 Analog Devices, Inc. All rights reserved.
+// Copyright (C) 2023-2024 Analog Devices, Inc. All rights reserved.
 //
 // In this HDL repository, there are many different and unique modules, consisting
 // of various HDL (Verilog or VHDL) components. The individual modules are
@@ -98,10 +98,9 @@ module system_top (
 
   // internal signals
 
-  wire    [ 1:0]  spi_csn; // not sure if it's necessearry 
   wire            spi_miso;
   wire            spi_mosi;
-  
+
   wire    [63:0]  gpio_i;
   wire    [63:0]  gpio_o;
   wire    [63:0]  gpio_t;
@@ -111,7 +110,7 @@ module system_top (
   wire    [ 1:0]  iic_mux_sda_i_s;
   wire    [ 1:0]  iic_mux_sda_o_s;
   wire            iic_mux_sda_t_s;
-  
+
   wire    [ 2:0]  spi0_csn;
   wire            spi0_clk;
   wire            spi0_mosi;
