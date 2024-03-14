@@ -6,15 +6,15 @@ AD9265-FMC HDL project
 Overview
 -------------------------------------------------------------------------------
 
-The :adi:`AD9265` is a 16-bit, 125 MSPS analog-to-digital converter (ADC). The 
+The :adi:`AD9265` is a 16-bit, 125 MSPS analog-to-digital converter (ADC). The
 :adi:`AD9265` is designed to support communications applications where high 
-performance combined with low cost, small size, and versatility is desired. The 
+performance combined with low cost, small size, and versatility is desired. The
 ADC core features a multistage, differential pipelined architecture with 
-integrated output error correction logic to provide 16-bit accuracy at 125 MSPS 
-data rates and guarantees no missing codes over the full operating temperature 
-range. The ADC output data format is either parallel 1.8 V CMOS or LVDS (DDR). 
-A data output clock is provided to ensure proper latch timing with receiving 
-logic. The board also provides other options to drive the clock and analog 
+integrated output error correction logic to provide 16-bit accuracy at 125 MSPS
+data rates and guarantees no missing codes over the full operating temperature
+range. The ADC output data format is either parallel 1.8 V CMOS or LVDS (DDR).
+A data output clock is provided to ensure proper latch timing with receiving
+logic. The board also provides other options to drive the clock and analog
 inputs of the ADC.
 
 Supported boards
@@ -74,12 +74,12 @@ added to the base address from HDL (see more at :ref:`architecture`).
 
 Check-out the table below to find out the conditions.
 
-==================== =============== 
+==================== ===============
 Instance             Zynq/Microblaze
-==================== =============== 
-axi_ad9265           0x44A00000         
+==================== ===============
+axi_ad9265           0x44A00000     
 axi_ad9265_dma       0x44A30000     
-==================== =============== 
+==================== ===============
 
 SPI connections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -210,5 +210,3 @@ Software related
 .. include:: ../common/more_information.rst
 
 .. include:: ../common/support.rst
-
-.. _A10SoC: https://www.intel.com/content/www/us/en/products/details/fpga/development-kits/arria/10-sx.html
