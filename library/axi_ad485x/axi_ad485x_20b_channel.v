@@ -35,7 +35,7 @@
 
 `timescale 1ns/100ps
 
-module axi_ad4858_channel #(
+module axi_ad485x_20b_channel #(
 
   parameter CHANNEL_ID = 0,
   parameter ACTIVE_LANE = 8'b11111111, // for cmos if
