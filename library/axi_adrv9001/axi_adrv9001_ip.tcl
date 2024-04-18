@@ -85,20 +85,6 @@ ipx::add_bus_parameter POLARITY [ipx::get_bus_interfaces adc_2_rst -of_objects $
 ipx::add_bus_parameter POLARITY [ipx::get_bus_interfaces dac_1_rst -of_objects $cc]
 ipx::add_bus_parameter POLARITY [ipx::get_bus_interfaces dac_2_rst -of_objects $cc]
 
-set_property enablement_dependency {spirit:decode(id('MODELPARAM_VALUE.INDEPENDENT_1R1T_SUPPORT')) == 1 && spirit:decode(id('MODELPARAM_VALUE.DISABLE_TX2_SSI')) == 0} \
-  [ipx::get_ports dac_2* -of_objects $cc]
-
-set_property enablement_dependency {spirit:decode(id('MODELPARAM_VALUE.INDEPENDENT_1R1T_SUPPORT')) == 1 && spirit:decode(id('MODELPARAM_VALUE.DISABLE_RX2_SSI')) == 0} \
-  [ipx::get_ports adc_2* -of_objects $cc]
-
-set_property enablement_dependency {spirit:decode(id('MODELPARAM_VALUE.DISABLE_TX2_SSI')) == 0} \
-  [ipx::get_ports *tx2_* -of_objects $cc]
-
-set_property enablement_dependency {spirit:decode(id('MODELPARAM_VALUE.DISABLE_RX2_SSI')) == 0} \
-  [ipx::get_ports *rx2_* -of_objects $cc]
-
-set_property driver_value 0 [ipx::get_ports *_sync_in* -of_objects $cc]
-
 ## Customize XGUI layout
 
 set page0 [ipgui::get_pagespec -name "Page 0" -component $cc]
@@ -110,10 +96,64 @@ set_property -dict [list \
   "widget" "checkBox" \
 ] [ipgui::get_guiparamspec -name "EXT_SYNC" -component $cc]
 
+ipgui::add_param -name "USE_RX_CLK_FOR_TX" -component $cc -parent $page0
+set_property -dict [list \
+  "display_name" "Use Rx clock for Tx1" \
+  "tooltip" "NOTE: If checked, it disables the tx1_dclk_in interface and uses rx1_dclk_in. If DISABLE_RX1_SSI is set than rx2_dclk_in is used" \
+  "widget" "checkBox" \
+] [ipgui::get_guiparamspec -name "USE_RX_CLK_FOR_TX" -component $cc]
+
+ipgui::add_param -name "DISABLE_RX1_SSI" -component $cc -parent $page0
+set_property -dict [list \
+  "display_name" "Disable Rx1 SSI" \
+  "tooltip" "NOTE: If checked, it disables Rx1 source synchronous interface" \
+  "widget" "checkBox" \
+] [ipgui::get_guiparamspec -name "DISABLE_RX1_SSI" -component $cc]
+
+ipgui::add_param -name "DISABLE_RX2_SSI" -component $cc -parent $page0
+set_property -dict [list \
+  "display_name" "Disable Rx1 SSI" \
+  "tooltip" "NOTE: If checked, it disables Rx2 source synchronous interface" \
+  "widget" "checkBox" \
+] [ipgui::get_guiparamspec -name "DISABLE_RX2_SSI" -component $cc]
+
+ipgui::add_param -name "DISABLE_TX1_SSI" -component $cc -parent $page0
+set_property -dict [list \
+  "display_name" "Disable Tx1 SSI" \
+  "tooltip" "NOTE: If checked, it disables Tx1 source synchronous interface" \
+  "widget" "checkBox" \
+] [ipgui::get_guiparamspec -name "DISABLE_TX1_SSI" -component $cc]
+
+ipgui::add_param -name "DISABLE_TX2_SSI" -component $cc -parent $page0
+set_property -dict [list \
+  "display_name" "Disable Tx2 SSI" \
+  "tooltip" "NOTE: If checked, it disables Tx2 source synchronous interface" \
+  "widget" "checkBox" \
+] [ipgui::get_guiparamspec -name "DISABLE_TX2_SSI" -component $cc]
+
 adi_set_ports_dependency "adc_sync_in" \
 	"(spirit:decode(id('MODELPARAM_VALUE.EXT_SYNC')) == 1)"
 adi_set_ports_dependency "dac_sync_in" \
 	"(spirit:decode(id('MODELPARAM_VALUE.EXT_SYNC')) == 1)"
+
+set_property enablement_dependency {spirit:decode(id('MODELPARAM_VALUE.INDEPENDENT_1R1T_SUPPORT')) == 1 && spirit:decode(id('MODELPARAM_VALUE.DISABLE_TX2_SSI')) == 0} \
+  [ipx::get_ports dac_2* -of_objects $cc]
+
+set_property enablement_dependency {spirit:decode(id('MODELPARAM_VALUE.INDEPENDENT_1R1T_SUPPORT')) == 1 && spirit:decode(id('MODELPARAM_VALUE.DISABLE_RX2_SSI')) == 0} \
+  [ipx::get_ports adc_2* -of_objects $cc]
+
+set_property enablement_dependency {spirit:decode(id('MODELPARAM_VALUE.DISABLE_TX1_SSI')) == 0} \
+  [ipx::get_ports *tx1_* -of_objects $cc]
+
+set_property enablement_dependency {spirit:decode(id('MODELPARAM_VALUE.DISABLE_TX2_SSI')) == 0} \
+  [ipx::get_ports *tx2_* -of_objects $cc]
+
+set_property enablement_dependency {spirit:decode(id('MODELPARAM_VALUE.DISABLE_RX2_SSI')) == 0} \
+  [ipx::get_ports *rx2_* -of_objects $cc]
+
+set_property enablement_dependency {spirit:decode(id('MODELPARAM_VALUE.DISABLE_RX1_SSI')) == 0} \
+  [ipx::get_ports *rx1_* -of_objects $cc]
+set_property driver_value 0 [ipx::get_ports *_sync_in* -of_objects $cc]
 
 adi_add_auto_fpga_spec_params
 ipx::create_xgui_files $cc

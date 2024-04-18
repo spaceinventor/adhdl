@@ -42,6 +42,8 @@ module axi_adrv9001_if #(
   parameter DRP_WIDTH = 5,
   parameter RX_USE_BUFG = 0,
   parameter TX_USE_BUFG = 0,
+  parameter DISABLE_RX1_SSI = 0,
+  parameter DISABLE_TX1_SSI = 0,
   parameter DISABLE_RX2_SSI = 0,
   parameter DISABLE_TX2_SSI = 0,
   parameter IODELAY_CTRL = 1,
@@ -204,6 +206,8 @@ module axi_adrv9001_if #(
   wire        dac_2_data_valid;
 
   wire        rx_ssi_sync_out;
+  generate
+  if (DISABLE_RX1_SSI == 0) begin
 
   adrv9001_rx #(
     .CMOS_LVDS_N (CMOS_LVDS_N),
@@ -270,13 +274,24 @@ module axi_adrv9001_if #(
     .rx_symb_op (rx1_symb_op),
     .rx_symb_8_16b (rx1_symb_8_16b));
 
-  generate if (DISABLE_RX2_SSI == 0) begin
+  end else begin
+    assign delay_rx1_locked = 1'b1;
+    assign up_rx1_drdata = 'h0;
+    assign rx1_clk = DISABLE_RX2_SSI ? 1'b0 : rx2_clk;
+    assign adc_1_clk_div = DISABLE_RX2_SSI ? 1'b0 : adc_2_clk_div;
+    assign adc_1_clk = DISABLE_RX2_SSI ? 1'b0 : adc_2_clk;
+    assign rx1_data_valid = 1'b0;
+    assign rx1_data_i = 16'b0;
+    assign rx1_data_q = 16'b0;
+  end
+
+  if (DISABLE_RX2_SSI == 0) begin
     adrv9001_rx #(
       .CMOS_LVDS_N (CMOS_LVDS_N),
       .FPGA_TECHNOLOGY (FPGA_TECHNOLOGY),
       .NUM_LANES (NUM_LANES),
       .DRP_WIDTH (DRP_WIDTH),
-      .IODELAY_CTRL (0),
+      .IODELAY_CTRL (DISABLE_RX1_SSI),
       .IODELAY_ENABLE (IODELAY_ENABLE),
       .USE_BUFG (RX_USE_BUFG),
       .IO_DELAY_GROUP ({IO_DELAY_GROUP,"_rx"})
@@ -336,13 +351,15 @@ module axi_adrv9001_if #(
   end else begin
     assign delay_rx2_locked = 1'b1;
     assign up_rx2_drdata = 'h0;
-    assign rx2_clk = 1'b0;
+    assign rx2_clk = DISABLE_RX1_SSI ? 1'b0 : rx1_clk;
+    assign adc_2_clk_div = DISABLE_RX1_SSI ? 1'b0 : adc_1_clk_div;
+    assign adc_2_clk = DISABLE_RX1_SSI ? 1'b0 : adc_1_clk;
     assign rx2_data_valid = 1'b0;
     assign rx2_data_i = 16'b0;
     assign rx2_data_q = 16'b0;
   end
-  endgenerate
 
+  if (DISABLE_TX1_SSI == 0) begin
   adrv9001_tx #(
     .CMOS_LVDS_N (CMOS_LVDS_N),
     .NUM_LANES (TX_NUM_LANES),
@@ -407,8 +424,19 @@ module axi_adrv9001_if #(
     .tx_single_lane (tx1_single_lane),
     .tx_symb_op (tx1_symb_op),
     .tx_symb_8_16b (tx1_symb_8_16b));
+  end else begin
+    assign tx1_clk = 1'b0;
+    assign tx1_dclk_out_n_NC = 1'b0;
+    assign tx1_dclk_out_p_dclk_out = 1'b0;
+    assign tx1_idata_out_n_idata0 = 1'b0;
+    assign tx1_idata_out_p_idata1 = 1'b0;
+    assign tx1_qdata_out_n_qdata2 = 1'b0;
+    assign tx1_qdata_out_p_qdata3 = 1'b0;
+    assign tx1_strobe_out_n_NC = 1'b0;
+    assign tx1_strobe_out_p_strobe_out = 1'b0;
+  end
 
-  generate if (DISABLE_TX2_SSI == 0) begin
+  if (DISABLE_TX2_SSI == 0) begin
     adrv9001_tx #(
       .CMOS_LVDS_N (CMOS_LVDS_N),
       .NUM_LANES (TX_NUM_LANES),

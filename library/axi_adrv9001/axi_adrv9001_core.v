@@ -45,6 +45,7 @@ module axi_adrv9001_core #(
   parameter DDS_DISABLE = 0,
   parameter INDEPENDENT_1R1T_SUPPORT = 1,
   parameter COMMON_2R2T_SUPPORT = 1,
+  parameter DISABLE_RX1_SSI = 0,
   parameter DISABLE_RX2_SSI = 0,
   parameter DISABLE_TX2_SSI = 0,
   parameter FPGA_TECHNOLOGY = 0,
@@ -381,6 +382,7 @@ module axi_adrv9001_core #(
     .ID (ID),
     .ENABLED (1),
     .CMOS_LVDS_N (CMOS_LVDS_N),
+    .USE_RX_CLK_FOR_TX (USE_RX_CLK_FOR_TX && DISABLE_RX1_SSI != 1),
     .COMMON_BASE_ADDR(6'h00),
     .CHANNEL_BASE_ADDR(6'h01),
     .MODE_R1 (COMMON_2R2T_SUPPORT == 0 || DISABLE_RX2_SSI == 1),
@@ -446,6 +448,7 @@ module axi_adrv9001_core #(
     .ID (ID),
     .ENABLED (INDEPENDENT_1R1T_SUPPORT == 1 && DISABLE_RX2_SSI != 1),
     .CMOS_LVDS_N (CMOS_LVDS_N),
+    .USE_RX_CLK_FOR_TX (USE_RX_CLK_FOR_TX && DISABLE_RX2_SSI != 1),
     .COMMON_BASE_ADDR(6'h04),
     .CHANNEL_BASE_ADDR(6'h05),
     .MODE_R1 (1),
@@ -618,6 +621,7 @@ module axi_adrv9001_core #(
   up_delay_cntrl #(
     .DATA_WIDTH(NUM_LANES),
     .DRP_WIDTH(DRP_WIDTH),
+    .DISABLE(DISABLE_RX1_SSI),
     .BASE_ADDRESS(6'h02)
   ) i_delay_cntrl_rx1 (
     .delay_clk (delay_clk),
