@@ -67,6 +67,7 @@ module system_top (
   assign leds_0_to_23 = gpio0_o[23:0];
   assign gpio0_i[31:24] = dip_sw_1_to_8;
   assign gpio1_i[31:30] = {sw_5, sw_4};
+  assign gpio1_i[29:0] = gpio1_o[29:0];
 
   template_lfcpnx template_lfcpnx_inst (
     .gpio0_o(gpio0_o),
