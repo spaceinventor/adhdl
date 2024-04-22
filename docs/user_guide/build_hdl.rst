@@ -774,7 +774,7 @@ expect and understand when using ADI HDL repository on these tools.
        sys_env.xml file. (currently only no-OS and rtos, but not linked yet to
        ADI no-OS infrastructure)
    * - SDK (ARM/FPGA combo)
-     - :red:`Not supported or nonexistent yet.``
+     - :red:`Not supported or nonexistent yet.`
    * - Upgrading/Version changes (non-ADI cores)
      - You have to update the IP versions manually in GUI and copy the config
        from the tcl console to the '.tcl' block design file, or update directly
