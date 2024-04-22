@@ -116,9 +116,6 @@ proc adi_project_create_pb {project_name args} {
   global required_lattice_version
   global IGNORE_VERSION_CHECK
   global env
-  # global sys_cpu_type - for the feature
-
-  # I have to check for cpu selection options.
 
   # Extracting the Propel Builder version from $env(TOOLRTF)/../../components.xml
   set regex "<Name>com\.latticesemi\.systembuilder.*<Version>$required_lattice_version"
@@ -158,9 +155,6 @@ proc adi_project_create_pb {project_name args} {
 
   set preinst_ip_mod_dir ${env(TOOLRTF)}
   set propel_builder_project_dir "$ppath/$project_name/$project_name"
-
-  # I will think on library components later because those are still not
-  # applicable due to no ip generation tcl option. I will solve it later.
 
   if {$psc == ""} {
     file mkdir $propel_builder_project_dir
@@ -216,8 +210,6 @@ proc adi_project_create_pb {project_name args} {
 # and we do not need to generate the bsp separately also.
   sbp_design save
   sbp_design generate
-
-  # sbp_design gen_tcl -proj_dir . -proj_name $project_name
 
   if {$psc == ""} {
     file copy "$propel_builder_project_dir/.lib/latticesemi.com" \
@@ -293,11 +285,6 @@ proc adi_ip_config {args} {
       sbp_config_ip -vlnv $vlnv \
       -meta_loc $ip_path \
       -cfg "$cfg_path/$ip_iname.cfg"
-
-## Old version from 2022.1, that still works in 2023.2 but not shown in help.
-      # sbp_design config_ip -vlnv $vlnv \
-      # -meta_loc $ip_path \
-      # -cfg "$cfg_path/$ip_iname.cfg"
     }
   }
 }
