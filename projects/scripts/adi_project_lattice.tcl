@@ -222,6 +222,7 @@ proc adi_project_files_auto {project_name args} {
   set dir [pwd]
 
   if { [file exists $radiant_project] == 1} {
+    set project_dir [string map [list /${project_name}.rdf ""] $radiant_project]
     puts "\n------Adding files to $radiant_project project.------\n"
 
     # When I open the Radiant project, this tool enters the directory
@@ -249,8 +250,19 @@ proc adi_project_files_auto {project_name args} {
 
   foreach pfile $flist {
     puts "Trying to add $pfile to the $radiant_project project"
-    if { [catch {prj_add_source $opt_args $pfile} fid] } {
+
+    # In Lattice Radiant there can be only one active .sdc (Pre-Synthesis
+    # Constraint File) and one active .pdc (Post-Synthesis Constraint File).
+    # Generating a single system_constr.sdc and a single system_constr.pdc
+    # from multiple .sdc and .pdc constraint files.
+    if {[regexp {^.+\.pdc$} $pfile]} {
+      add_update_constraint_file $pfile $project_dir pdc $radiant_project $opt_args
+    } elseif {[regexp {^.+\.sdc$} $pfile]} {
+      add_update_constraint_file $pfile $project_dir sdc $radiant_project $opt_args
+    } else {
+      if { [catch {prj_add_source $opt_args $pfile} fid] } {
         puts "$pfile already added to $radiant_project project!"
+      }
     }
   }
 
@@ -292,6 +304,7 @@ proc adi_project_files {project_name args} {
   set dir [pwd]
 
   if { [file exists $radiant_project] == 1} {
+    set project_dir [string map [list /${project_name}.rdf ""] $radiant_project]
     puts "\n------Adding files to $radiant_project project.------\n"
 
     # When I open the Radiant project, this tool enters the directory
@@ -318,8 +331,19 @@ proc adi_project_files {project_name args} {
 
   foreach pfile $flist {
     puts "Trying to add $pfile to the $radiant_project project"
-    if { [catch {prj_add_source $opt_args $pfile} fid] } {
+
+    # In Lattice Radiant there can be only one active .sdc (Pre-Synthesis
+    # Constraint File) and one active .pdc (Post-Synthesis Constraint File).
+    # Generating a single system_constr.sdc and a single system_constr.pdc
+    # from multiple .sdc and .pdc constraint files.
+    if {[regexp {^.+\.pdc$} $pfile]} {
+      add_update_constraint_file $pfile $project_dir pdc $radiant_project $opt_args
+    } elseif {[regexp {^.+\.sdc$} $pfile]} {
+      add_update_constraint_file $pfile $project_dir sdc $radiant_project $opt_args
+    } else {
+      if { [catch {prj_add_source $opt_args $pfile} fid] } {
         puts "$pfile already added to $radiant_project project!"
+      }
     }
   }
 
@@ -330,6 +354,21 @@ proc adi_project_files {project_name args} {
   # and lets it like that so if we use relative paths somewhere in scripts
   # it would affect our code.
   cd $dir
+}
+
+proc add_update_constraint_file {pfile project_dir ext radiant_project opt_args} {
+      puts "Adding $pfile to $project_dir/system_constr.$ext"
+      set file [open $pfile]
+      set data [read $file]
+      close $file
+
+      set file_out [open "$project_dir/system_constr.$ext" a]
+      puts $file_out "\n# $pfile\n\n$data"
+      close $file_out
+
+      if { [catch {prj_add_source $opt_args $project_dir/system_constr.$ext} fid] } {
+        puts "$project_dir/system_constr.$ext already added to $radiant_project project!"
+      }
 }
 
 # Adds the default project files to the Radiant project ($project_name.rdf)

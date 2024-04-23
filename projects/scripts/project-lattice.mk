@@ -137,6 +137,8 @@ $(PB_TARGETS): $(filter-out $(PB_DEPS_FILTER_OUT),$(filter $(PB_DEPS_FILTER), $(
 
 $(R_TARGETS): $(filter $(R_DEPS_FILTER), $(M_DEPS))
 	-rm -f $(PROJECT_NAME)_radiant.log
+	-rm -f $(PROJECT_NAME)/system_constr.pdc
+	-rm -f $(PROJECT_NAME)/system_constr.sdc
 	$(call build, \
 		$(RADIANT) system_project.tcl, \
 		$(PROJECT_NAME)_radiant.log, \
