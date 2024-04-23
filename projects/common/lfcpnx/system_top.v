@@ -49,7 +49,7 @@ module system_top (
 
   input           spi_miso,
   output          spi_sclk,
-  output  [0:0]   spi_ssn,
+  output          spi_ssn,
   output          spi_mosi,
 
   inout           iic_scl,

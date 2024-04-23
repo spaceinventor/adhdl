@@ -69,12 +69,12 @@ ldc_set_port -iobuf {IO_TYPE=LVCMOS33 PULLMODE=UP} [get_ports iic_scl]
 ldc_set_port -iobuf {IO_TYPE=LVCMOS33 PULLMODE=UP} [get_ports iic_sda]
 
 #spi pmod0
-ldc_set_location -site {Y1} [get_ports {spi_ssn[0]}]
+ldc_set_location -site {Y1} [get_ports spi_ssn]
 ldc_set_location -site {W2} [get_ports spi_mosi]
 ldc_set_location -site {V3} [get_ports spi_miso]
 ldc_set_location -site {V1} [get_ports spi_sclk]
 
-ldc_set_port -iobuf {IO_TYPE=LVCMOS33} [get_ports {spi_ssn[0]}]
+ldc_set_port -iobuf {IO_TYPE=LVCMOS33} [get_ports spi_ssn]
 ldc_set_port -iobuf {IO_TYPE=LVCMOS33} [get_ports spi_mosi]
 ldc_set_port -iobuf {IO_TYPE=LVCMOS33} [get_ports spi_miso]
 ldc_set_port -iobuf {IO_TYPE=LVCMOS33} [get_ports spi_sclk]
