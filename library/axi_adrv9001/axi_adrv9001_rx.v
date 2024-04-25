@@ -139,7 +139,8 @@ module axi_adrv9001_rx #(
 
     // configuration settings
 
-    localparam  CONFIG =  (USE_RX_CLK_FOR_TX * 1024) +
+    localparam  CONFIG =  (USE_RX_CLK_FOR_TX[1] * 2048) +
+                          (USE_RX_CLK_FOR_TX[0] * 1024) +
                           (CMOS_LVDS_N * 128) +
                           (MODE_R1 * 16) +
                           (DATAFORMAT_DISABLE * 4) +

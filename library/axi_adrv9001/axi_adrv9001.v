@@ -56,7 +56,8 @@ module axi_adrv9001 #(
   parameter SPEED_GRADE = 0,
   parameter DEV_PACKAGE = 0,
   parameter EXT_SYNC = 0,
-  parameter USE_RX_CLK_FOR_TX = 0
+  parameter USE_RX_CLK_FOR_TX1 = 0,
+  parameter USE_RX_CLK_FOR_TX2 = 0
 ) (
   input                   ref_clk,
   input                   mssi_sync,
@@ -291,7 +292,8 @@ module axi_adrv9001 #(
     .DISABLE_TX1_SSI (DISABLE_TX1_SSI),
     .DISABLE_RX2_SSI (DISABLE_RX2_SSI),
     .DISABLE_TX2_SSI (DISABLE_TX2_SSI),
-    .USE_RX_CLK_FOR_TX (USE_RX_CLK_FOR_TX)
+    .USE_RX_CLK_FOR_TX1 (USE_RX_CLK_FOR_TX1),
+    .USE_RX_CLK_FOR_TX2 (USE_RX_CLK_FOR_TX2)
   ) i_if (
 
     //
@@ -417,7 +419,10 @@ module axi_adrv9001 #(
     .ID (ID),
     .NUM_LANES (NUM_LANES),
     .CMOS_LVDS_N (CMOS_LVDS_N),
-    .USE_RX_CLK_FOR_TX (USE_RX_CLK_FOR_TX),
+    .USE_RX1_CLK_FOR_TX ({30'd0,USE_RX_CLK_FOR_TX2[0], USE_RX_CLK_FOR_TX1[0]}),
+    .USE_RX2_CLK_FOR_TX ({30'd0,USE_RX_CLK_FOR_TX2[1], USE_RX_CLK_FOR_TX1[1]}),
+    .USE_RX_CLK_FOR_TX1 (USE_RX_CLK_FOR_TX1),
+    .USE_RX_CLK_FOR_TX2 (USE_RX_CLK_FOR_TX2),
     .DRP_WIDTH (DRP_WIDTH),
     .TDD_DISABLE (TDD_DISABLE),
     .DDS_DISABLE (DDS_DISABLE),

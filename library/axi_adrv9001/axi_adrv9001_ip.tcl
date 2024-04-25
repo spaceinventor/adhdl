@@ -96,12 +96,35 @@ set_property -dict [list \
   "widget" "checkBox" \
 ] [ipgui::get_guiparamspec -name "EXT_SYNC" -component $cc]
 
-ipgui::add_param -name "USE_RX_CLK_FOR_TX" -component $cc -parent $page0
+ipgui::add_param -name "USE_RX_CLK_FOR_TX1" -component $cc -parent $page0
 set_property -dict [list \
-  "display_name" "Use Rx clock for Tx1" \
-  "tooltip" "NOTE: If checked, it disables the tx1_dclk_in interface and uses rx1_dclk_in. If DISABLE_RX1_SSI is set than rx2_dclk_in is used" \
-  "widget" "checkBox" \
-] [ipgui::get_guiparamspec -name "USE_RX_CLK_FOR_TX" -component $cc]
+  "display_name" "Tx1 SSI ref clock source" \
+] [ipgui::get_guiparamspec -name "USE_RX_CLK_FOR_TX1" -component $cc]
+
+set_property -dict [list \
+  "value_validation_type" "pairs" \
+  "value_validation_pairs" { \
+    "Tx1 SSI ref clk" "0" \
+    "Rx1 SSI ref clk" "1" \
+    "Rx2 SSI ref clk" "2" \
+  } \
+] \
+[ipx::get_user_parameters USE_RX_CLK_FOR_TX1 -of_objects $cc]
+
+ipgui::add_param -name "USE_RX_CLK_FOR_TX2" -component $cc -parent $page0
+set_property -dict [list \
+  "display_name" "Tx2 SSI ref clock source" \
+] [ipgui::get_guiparamspec -name "USE_RX_CLK_FOR_TX2" -component $cc]
+
+set_property -dict [list \
+  "value_validation_type" "pairs" \
+  "value_validation_pairs" { \
+    "Tx2 SSI ref clk" "0" \
+    "Rx1 SSI ref clk" "1" \
+    "Rx2 SSI ref clk" "2" \
+  } \
+] \
+[ipx::get_user_parameters USE_RX_CLK_FOR_TX2 -of_objects $cc]
 
 ipgui::add_param -name "DISABLE_RX1_SSI" -component $cc -parent $page0
 set_property -dict [list \
@@ -112,7 +135,7 @@ set_property -dict [list \
 
 ipgui::add_param -name "DISABLE_RX2_SSI" -component $cc -parent $page0
 set_property -dict [list \
-  "display_name" "Disable Rx1 SSI" \
+  "display_name" "Disable Rx2 SSI" \
   "tooltip" "NOTE: If checked, it disables Rx2 source synchronous interface" \
   "widget" "checkBox" \
 ] [ipgui::get_guiparamspec -name "DISABLE_RX2_SSI" -component $cc]
