@@ -9,15 +9,23 @@ source $ad_hdl_dir/projects/scripts/adi_board.tcl
 
 # if the interface is not build defined, set CMOS as default inferface
 # make LVDS_CMOS_N=1 for LVDS interface
-set LVDS_CMOS_N  0
+set LVDS_CMOS_N 0
 if [info exists ::env(LVDS_CMOS_N)] {
   set LVDS_CMOS_N $::env(LVDS_CMOS_N)
 } else {
   set env(LVDS_CMOS_N) $LVDS_CMOS_N
 }
 
+set DEVICE "AD4858"
+if [info exists ::env(DEVICE)] {
+  set DEVICE $::env(DEVICE)
+} else {
+  set env(DEVICE) $DEVICE
+}
+
 adi_project ad4858_fmcz_zed 0 [list \
   LVDS_CMOS_N     $LVDS_CMOS_N \
+  DEVICE          $DEVICE \
 ]
 
 if {$LVDS_CMOS_N == "0"} {

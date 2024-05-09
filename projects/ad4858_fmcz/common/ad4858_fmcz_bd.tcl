@@ -4,6 +4,25 @@
 ###############################################################################
 
 set LVDS_CMOS_N $ad_project_params(LVDS_CMOS_N)
+set DEVICE $ad_project_params(DEVICE)
+
+set data_width [expr {$DEVICE eq {AD4858} ? 32 : \
+                      $DEVICE eq {AD4857} ? 16 : \
+                      $DEVICE eq {AD4856} ? 32 : \
+                      $DEVICE eq {AD4855} ? 16 : \
+                      $DEVICE eq {AD4854} ? 32 : \
+                      $DEVICE eq {AD4853} ? 16 : \
+                      $DEVICE eq {AD4852} ? 32 : \
+                      $DEVICE eq {AD4851} ? 16 : 32}]
+
+set numb_of_ch [expr {$DEVICE eq {AD4858} ? 8 : \
+                      $DEVICE eq {AD4857} ? 8 : \
+                      $DEVICE eq {AD4856} ? 8 : \
+                      $DEVICE eq {AD4855} ? 8 : \
+                      $DEVICE eq {AD4854} ? 4 : \
+                      $DEVICE eq {AD4853} ? 4 : \
+                      $DEVICE eq {AD4852} ? 4 : \
+                      $DEVICE eq {AD4851} ? 4 : 32}]
 
 # ad4858 interface
 
@@ -76,7 +95,7 @@ ad_ip_parameter ad4858_dma CONFIG.SYNC_TRANSFER_START 1
 ad_ip_parameter ad4858_dma CONFIG.AXI_SLICE_SRC 0
 ad_ip_parameter ad4858_dma CONFIG.AXI_SLICE_DEST 0
 ad_ip_parameter ad4858_dma CONFIG.DMA_2D_TRANSFER 0
-ad_ip_parameter ad4858_dma CONFIG.DMA_DATA_WIDTH_SRC 256
+ad_ip_parameter ad4858_dma CONFIG.DMA_DATA_WIDTH_SRC [expr $data_width * $numb_of_ch]
 ad_ip_parameter ad4858_dma CONFIG.DMA_DATA_WIDTH_DEST 64
 
 ad_connect  adc_clk ad4858_dma/fifo_wr_clk
@@ -95,19 +114,30 @@ ad_connect sys_cpu_clk      axi_pwm_gen/s_axi_aclk
 
 # axi_ad4858
 
-ad_ip_instance axi_ad4858 axi_ad4858
+ad_ip_instance axi_ad485x axi_ad4858
 ad_ip_parameter axi_ad4858 CONFIG.LVDS_CMOS_N $LVDS_CMOS_N
 ad_ip_parameter axi_ad4858 CONFIG.EXTERNAL_CLK 1
+ad_ip_parameter axi_ad4858 CONFIG.DEVICE $DEVICE
 ad_connect  axi_ad4858/external_clk adc_clk
 if {$LVDS_CMOS_N == "0"} {
-  ad_connect  adc_lane_0  axi_ad4858/lane_0
-  ad_connect  adc_lane_1  axi_ad4858/lane_1
-  ad_connect  adc_lane_2  axi_ad4858/lane_2
-  ad_connect  adc_lane_3  axi_ad4858/lane_3
-  ad_connect  adc_lane_4  axi_ad4858/lane_4
-  ad_connect  adc_lane_5  axi_ad4858/lane_5
-  ad_connect  adc_lane_6  axi_ad4858/lane_6
-  ad_connect  adc_lane_7  axi_ad4858/lane_7
+  if {$DEVICE == {AD4858} || \
+      $DEVICE == {AD4857} || \
+      $DEVICE == {AD4856} || \
+      $DEVICE == {AD4855}} {
+    ad_connect  adc_lane_0  axi_ad4858/lane_0
+    ad_connect  adc_lane_1  axi_ad4858/lane_1
+    ad_connect  adc_lane_2  axi_ad4858/lane_2
+    ad_connect  adc_lane_3  axi_ad4858/lane_3
+    ad_connect  adc_lane_4  axi_ad4858/lane_4
+    ad_connect  adc_lane_5  axi_ad4858/lane_5
+    ad_connect  adc_lane_6  axi_ad4858/lane_6
+    ad_connect  adc_lane_7  axi_ad4858/lane_7
+  } else {
+    ad_connect  adc_lane_0  axi_ad4858/lane_0
+    ad_connect  adc_lane_2  axi_ad4858/lane_1
+    ad_connect  adc_lane_5  axi_ad4858/lane_2
+    ad_connect  adc_lane_7  axi_ad4858/lane_3
+  }
   ad_connect  scko  axi_ad4858/scko
   ad_connect  scki  axi_ad4858/scki
 
@@ -128,8 +158,8 @@ ad_connect  lvds_cmos_n  axi_ad4858/lvds_cmos_n
 # adc-path channel pack
 
 ad_ip_instance util_cpack2 ad4858_adc_pack
-ad_ip_parameter ad4858_adc_pack CONFIG.NUM_OF_CHANNELS 8
-ad_ip_parameter ad4858_adc_pack CONFIG.SAMPLE_DATA_WIDTH 32
+ad_ip_parameter ad4858_adc_pack CONFIG.NUM_OF_CHANNELS $numb_of_ch
+ad_ip_parameter ad4858_adc_pack CONFIG.SAMPLE_DATA_WIDTH $data_width
 
 ad_connect adc_clk ad4858_adc_pack/clk
 ad_connect adc_reset ad4858_adc_pack/reset
@@ -137,7 +167,7 @@ ad_connect axi_ad4858/adc_valid ad4858_adc_pack/fifo_wr_en
 ad_connect ad4858_adc_pack/packed_fifo_wr ad4858_dma/fifo_wr
 ad_connect ad4858_adc_pack/fifo_wr_overflow axi_ad4858/adc_dovf
 
-for {set i 0} {$i < 8} {incr i} {
+for {set i 0} {$i < $numb_of_ch} {incr i} {
   ad_connect axi_ad4858/adc_data_$i ad4858_adc_pack/fifo_wr_data_$i
   ad_connect axi_ad4858/adc_enable_$i ad4858_adc_pack/enable_$i
 }
