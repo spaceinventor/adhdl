@@ -30,6 +30,7 @@ Contents
    AD7768-EVB <ad7768evb/index>
    AD9081-FMCA-EBZ/AD9082-FMCA-EBZ <ad9081_fmca_ebz/index>
    AD9434-FMC <ad9434_fmc/index>
+   AD9747-EBZ <ad9747_ebz/index>
    AD9783-EBZ <ad9783_ebz/index>
    ADAQ7980-SDZ <adaq7980_sdz/index>
    CN0363 <cn0363/index>
