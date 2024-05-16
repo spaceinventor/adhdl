@@ -133,12 +133,34 @@ set_property -dict [list \
   "widget" "checkBox" \
 ] [ipgui::get_guiparamspec -name "DISABLE_RX1_SSI" -component $cc]
 
+set_property value_format bool [ipx::get_user_parameters DISABLE_RX1_SSI -of_objects $cc]
+set_property value_format bool [ipx::get_hdl_parameters DISABLE_RX1_SSI -of_objects $cc]
+set_property value false [ipx::get_user_parameters DISABLE_RX1_SSI -of_objects $cc]
+set_property value false [ipx::get_hdl_parameters DISABLE_RX1_SSI -of_objects $cc]
+set_property enablement_tcl_expr {expr {[info exists USE_RX_CLK_FOR_TX1] ?
+                                        ($USE_RX_CLK_FOR_TX1 == 1 || $USE_RX_CLK_FOR_TX2 == 1) ? 0 : 1 : 1}
+} [ipx::get_user_parameters DISABLE_RX1_SSI -of_objects $cc]
+set_property value_tcl_expr {expr {[info exists USE_RX_CLK_FOR_TX1] ?
+                                   ($USE_RX_CLK_FOR_TX1 == 1 || $USE_RX_CLK_FOR_TX2 == 1 )? 0 : 1 : 1}
+} [ipx::get_user_parameters DISABLE_RX1_SSI -of_objects $cc]
+
 ipgui::add_param -name "DISABLE_RX2_SSI" -component $cc -parent $page0
 set_property -dict [list \
   "display_name" "Disable Rx2 SSI" \
   "tooltip" "NOTE: If checked, it disables Rx2 source synchronous interface" \
   "widget" "checkBox" \
 ] [ipgui::get_guiparamspec -name "DISABLE_RX2_SSI" -component $cc]
+
+set_property value_format bool [ipx::get_user_parameters DISABLE_RX2_SSI -of_objects $cc]
+set_property value_format bool [ipx::get_hdl_parameters DISABLE_RX2_SSI -of_objects $cc]
+set_property value false [ipx::get_user_parameters DISABLE_RX2_SSI -of_objects $cc]
+set_property value false [ipx::get_hdl_parameters DISABLE_RX2_SSI -of_objects $cc]
+set_property enablement_tcl_expr {expr {[info exists USE_RX_CLK_FOR_TX1] ?
+                                        ($USE_RX_CLK_FOR_TX1 == 2 || $USE_RX_CLK_FOR_TX2 == 2) ? 0 : 1 : 1}
+} [ipx::get_user_parameters DISABLE_RX2_SSI -of_objects $cc]
+set_property value_tcl_expr {expr {[info exists USE_RX_CLK_FOR_TX1] ?
+                                   ($USE_RX_CLK_FOR_TX1 == 2 || $USE_RX_CLK_FOR_TX2 == 2) ? 0 : 1 : 1}
+} [ipx::get_user_parameters DISABLE_RX2_SSI -of_objects $cc]
 
 ipgui::add_param -name "DISABLE_TX1_SSI" -component $cc -parent $page0
 set_property -dict [list \
