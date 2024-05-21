@@ -32,6 +32,7 @@ Contents
    AD9434-FMC <ad9434_fmc/index>
    AD9783-EBZ <ad9783_ebz/index>
    ADAQ7980-SDZ <adaq7980_sdz/index>
+   ADRV904x <adrv904x/index>
    CN0363 <cn0363/index>
    CN0540 <cn0540/index>
    CN0561 <cn0561/index>
