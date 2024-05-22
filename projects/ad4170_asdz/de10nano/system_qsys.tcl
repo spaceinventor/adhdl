@@ -12,7 +12,13 @@ if [info exists ad_project_dir] {
   source ../common/ad4170_asdz_qsys.tcl
 }
 
+set_instance_parameter_value sys_gpio_in {captureEdge} {true}
+set_instance_parameter_value sys_gpio_in {edgeType} {FALLING}
+set_instance_parameter_value sys_gpio_in {generateIRQ} {true}
+set_instance_parameter_value sys_gpio_in {irqType} {EDGE}
+
 set_instance_parameter_value sys_spi {clockPolarity} {0}
+set_instance_parameter_value sys_spi {targetClockRate} {20000000.0}
 
 #system ID
 set_instance_parameter_value axi_sysid_0 {ROM_ADDR_BITS} {9}
