@@ -246,10 +246,18 @@ module system_top (
     .sys_gpio_bd_out_port (gpio_o[31:0]),
     .sys_gpio_in_export (gpio_i[63:32]),
     .sys_gpio_out_export (gpio_o[63:32]),
-    .sys_spi_MISO (spi_miso),
-    .sys_spi_MOSI (spi_mosi),
-    .sys_spi_SCLK (spi_clk),
-    .sys_spi_SS_n (spi_csn),
+
+//    .sys_spi_MISO (spi_miso),
+//    .sys_spi_MOSI (spi_mosi),
+//    .sys_spi_SCLK (spi_clk),
+//    .sys_spi_SS_n (spi_csn),
+
+    .cn0540_spi_cs_cs(spi_csn),
+    .cn0540_spi_sclk_clk(spi_clk),
+    .cn0540_spi_sdi_sdi(spi_miso),
+    .cn0540_spi_sdo_sdo(spi_mosi),
+    .cn0540_spi_trigger_if_pwm(gpio_i[32]),
+
     .axi_hdmi_tx_0_hdmi_if_h_clk (hdmi_out_clk),
     .axi_hdmi_tx_0_hdmi_if_h24_hsync (hdmi_hsync),
     .axi_hdmi_tx_0_hdmi_if_h24_vsync (hdmi_vsync),
