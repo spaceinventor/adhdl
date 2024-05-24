@@ -325,23 +325,22 @@ module rtp_engine #(
       m_axis_tdata_r <= 'h0;
       m_axis_tkeep_r <= 'hFF;
     end else begin
-      if (rtp_transm_state == HEADER_TRANSM_P1 && m_axis_tready) begin // HEADER_TRANSM_P1 active for 2 cycles
-        if (!end_of_header_p1_tr) begin
-          m_axis_tdata_r <= {rtp_header.version,rtp_header.padding,rtp_header.extension,rtp_header.csrc_count,rtp_header.marker,rtp_header.payload_type,rtp_header.sequence_nr,rtp_header.timestamp};
-          m_axis_tkeep_r <= 'hFF;
-        end else begin 
-          m_axis_tdata_r <= {rtp_header.ssrc_field,32'h00000000};
-          m_axis_tkeep_r <= 'h0F;
-        end
-      end else begin
+      if (rtp_transm_state == HEADER_TRANSM_P1 && m_axis_tready && ~end_of_header_p1_tr) begin // HEADER_TRANSM_P1 active for 2 cycles
+        m_axis_tdata_r <= {rtp_header.version,rtp_header.padding,rtp_header.extension,rtp_header.csrc_count,rtp_header.marker,rtp_header.payload_type,rtp_header.sequence_nr,rtp_header.timestamp};
         m_axis_tkeep_r <= 'hFF;
-        if (end_of_header_p2_tr && m_axis_tready) begin
-          m_axis_tdata_r <= rtp_pd_header;
-	end else if ((end_of_pd_header_tr || rtp_transm_state == PAYLOAD_TRANSM) && m_axis_tready) begin
-	  m_axis_tdata_r <= m_axis_cam_tdata;
-        end else begin
-          m_axis_tdata_r <= m_axis_tdata_r;
-        end
+        end*/
+      end else if (end_of_header_p1_tr && m_axis_tready) begin
+         m_axis_tdata_r <= {rtp_header.ssrc_field,32'h00000000};
+         m_axis_tkeep_r <= 'h0F;
+      end else if (end_of_header_p2_tr && m_axis_tready) begin
+         m_axis_tdata_r <= rtp_pd_header;
+         m_axis_tkeep_r <= 'hFF;
+      end else if ((end_of_pd_header_tr || rtp_transm_state == PAYLOAD_TRANSM) && m_axis_tready) begin
+         m_axis_tdata_r <= m_axis_cam_tdata;
+         m_axis_tkeep_r <= 'hFF;
+      end else begin
+         m_axis_tdata_r <= m_axis_tdata_r;
+         m_axis_tkeep_r <= 'hFF;
       end
     end
   end
