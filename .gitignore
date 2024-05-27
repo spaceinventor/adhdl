@@ -92,3 +92,4 @@ _vmake
 *.qdb
 *.qpg
 *.qtl
+library/axi_ad9361/bd/bd.tcl
