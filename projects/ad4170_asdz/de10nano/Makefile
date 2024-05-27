@@ -9,9 +9,15 @@ PROJECT_NAME := ad4170_asdz_de10nano
 M_DEPS += ../../scripts/adi_pd.tcl
 M_DEPS += ../../common/de10nano/de10nano_system_qsys.tcl
 M_DEPS += ../../common/de10nano/de10nano_system_assign.tcl
+M_DEPS += ../../../library/common/ad_edge_detect.v
+M_DEPS += ../../../library/util_cdc/sync_bits.v
 
 LIB_DEPS += axi_hdmi_tx
 LIB_DEPS += axi_sysid
 LIB_DEPS += sysid_rom
+LIB_DEPS += spi_engine/axi_spi_engine
+LIB_DEPS += spi_engine/spi_engine_execution
+LIB_DEPS += spi_engine/spi_engine_interconnect
+LIB_DEPS += spi_engine/spi_engine_offload
 
 include ../../scripts/project-intel.mk
